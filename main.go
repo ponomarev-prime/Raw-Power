@@ -7,14 +7,17 @@ import (
 )
 
 type CmdConfigs struct {
-	fileName string
-	flagX    bool
+	pathFileName string
+	FlagX        bool
+	Arg3         string
+	Arg4         string
 }
 
-// Значения по умолчанию
 var defaultCmdConfigs = CmdConfigs{
-	fileName: "default.txt",
-	flagX:    false,
+	pathFileName: "default.txt",
+	FlagX:        false,
+	Arg3:         "default-arg3",
+	Arg4:         "default-arg4",
 }
 
 func main() {
@@ -22,8 +25,8 @@ func main() {
 
 	fmt.Println(getCmdConfigs(getSysArgs()))
 
-	stringArray := []string{"Hello", "world", "!", "!!"}
-	fmt.Println(arrayElementJoiner(stringArray))
+	//stringArray := []string{"Hello", "world", "!", "!!"}
+	//fmt.Println(arrayElementJoiner(stringArray))
 }
 
 func getSysArgs() []string {
@@ -37,16 +40,47 @@ func arrayElementJoiner(stringArray []string) string {
 }
 
 func getCmdConfigs(sysArgs []string) CmdConfigs {
-	if len(sysArgs) == 0 {
-		fmt.Println("Zero args")
-		CmdConfigs := defaultCmdConfigs
-		return CmdConfigs
+	// Копируем значения из defaultCmdConfigs
+	configs := defaultCmdConfigs
+
+	// Создаем карту для хранения аргументов и их значений
+	argMap := make(map[string]string)
+
+	for i := 0; i < len(sysArgs); i++ {
+		arg := sysArgs[i]
+		//fmt.Println(arg)
+		//fmt.Println(arg[:2])
+		if arg[:2] == "--" {
+			printArg := arg[2:]
+			splitArg := strings.SplitAfter(printArg, "=")
+			//fmt.Println(splitArg)
+			argName := splitArg[0]
+			argMap[argName] = ""
+			if len(splitArg) > 1 {
+				argValue := splitArg[1]
+				//argMap[argName] = argValue
+				//fmt.Println(argValue)
+				argMap[argName] = argValue
+			}
+			//fmt.Println(argName)
+
+		}
 	}
 
-	partName := strings.Split(sysArgs[0], "=")[1]
+	//fmt.Println(argMap)
+	// Переопределяем поля в configs, если они есть в аргументах
+	if value, exists := argMap["names="]; exists {
+		configs.pathFileName = value
+	}
+	if _, exists := argMap["flagx"]; exists {
+		configs.FlagX = true
+	}
+	if value, exists := argMap["arg3="]; exists {
+		configs.Arg3 = value
+	}
+	if value, exists := argMap["arg4="]; exists {
+		configs.Arg4 = value
+	}
 
-	CmdConfigs := defaultCmdConfigs
-	CmdConfigs.fileName = partName
-	CmdConfigs.flagX = true
-	return CmdConfigs
+	return configs
 }
