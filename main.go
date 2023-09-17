@@ -3,16 +3,26 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
+	fmt.Println("begin")
 
-	argsWithProg := os.Args
+	printArgs := getSysArgs()
+	fmt.Println(printArgs)
+
+	stringArray := []string{"Hello", "world", "!", "!!"}
+	printArrayJoined := arrayElementJoiner(stringArray)
+	fmt.Println(printArrayJoined)
+}
+
+func getSysArgs() []string {
 	argsWithoutProg := os.Args[1:]
+	return argsWithoutProg
+}
 
-	arg := os.Args[3]
-
-	fmt.Println(argsWithProg)
-	fmt.Println(argsWithoutProg)
-	fmt.Println(arg)
+func arrayElementJoiner(stringArray []string) string {
+	justString := strings.Join(stringArray, " ")
+	return justString
 }
