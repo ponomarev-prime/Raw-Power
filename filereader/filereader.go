@@ -26,7 +26,7 @@ func GetFileEntries(filePath string) []string {
 		// Удаление лишних пробелов и переносов строки.
 		name := strings.TrimSpace(line)
 		if name != "" {
-			names = append(names, name)
+			names = append(names, name, "|")
 		}
 	}
 
