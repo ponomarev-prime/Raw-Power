@@ -1,18 +1,24 @@
 package main
 
 import (
+	"GoSysArgs/cmdln"
+	"GoSysArgs/filereader"
 	"fmt"
 	"os"
 )
 
 func main() {
+	fmt.Println("begin")
 
-	argsWithProg := os.Args
+	appCmdArgs := cmdln.GetCmdConfigs(getSysArgs())
+	fmt.Println(appCmdArgs)
+	fmt.Println(appCmdArgs.PathFileName)
+
+	fileEnt := filereader.GetFileEntries(appCmdArgs.PathFileName)
+	fmt.Println(fileEnt)
+}
+
+func getSysArgs() []string {
 	argsWithoutProg := os.Args[1:]
-
-	//arg := os.Args[3]
-
-	fmt.Println(argsWithProg)
-	fmt.Println(argsWithoutProg)
-	//fmt.Println(arg)
+	return argsWithoutProg
 }
