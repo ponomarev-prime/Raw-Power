@@ -2,16 +2,11 @@ package main
 
 import (
 	"GoSysArgs/cmdln"
+	"GoSysArgs/filereader"
 	"fmt"
 	"os"
 	"strings"
 )
-
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
 
 func main() {
 	fmt.Println("begin")
@@ -20,6 +15,8 @@ func main() {
 	fmt.Println(appCmdArgs)
 	fmt.Println(appCmdArgs.PathFileName)
 
+	fileEnt := filereader.GetFileEntries(appCmdArgs.PathFileName)
+	fmt.Println(fileEnt)
 	//stringArray := []string{"Hello", "world", "!", "!!"}
 	//fmt.Println(arrayElementJoiner(stringArray))
 }
