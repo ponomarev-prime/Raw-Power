@@ -5,7 +5,6 @@ import (
 	"GoSysArgs/filereader"
 	"fmt"
 	"os"
-	"strings"
 )
 
 func main() {
@@ -17,16 +16,9 @@ func main() {
 
 	fileEnt := filereader.GetFileEntries(appCmdArgs.PathFileName)
 	fmt.Println(fileEnt)
-	//stringArray := []string{"Hello", "world", "!", "!!"}
-	//fmt.Println(arrayElementJoiner(stringArray))
 }
 
 func getSysArgs() []string {
 	argsWithoutProg := os.Args[1:]
 	return argsWithoutProg
-}
-
-func arrayElementJoiner(stringArray []string) string {
-	justString := strings.Join(stringArray, " ")
-	return justString
 }
